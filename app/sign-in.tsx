@@ -7,14 +7,22 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { login } from "@/lib/appwrite";
 
 import images from "@/constants/images";
 import icons from "@/constants/icons";
+import { router } from "expo-router";
 
 const Auth = () => {
   const handleLogin = async () => {
-    // do something
-  }
+    const success = await login();
+    if (success) {
+      router.push("/");
+    } else {
+      Alert.alert("Login failed");
+    }
+  };
+  
   return (
     <SafeAreaView className="bg-white h-full">
         <ScrollView
@@ -42,8 +50,8 @@ const Auth = () => {
             </Text>
 
             <TouchableOpacity
-            onPress={handleLogin}
-            className="bg-white shadow-md shadow-zinc-300 rounded-full w-full py-4 mt-5"
+              onPress={handleLogin}
+              className="bg-white shadow-md shadow-zinc-300 rounded-full w-full py-4 mt-5"
             >
               <View className="flex flex-row items-center justify-center">
                 <Image 
