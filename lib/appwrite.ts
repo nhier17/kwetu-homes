@@ -44,34 +44,35 @@ export const databases = new Databases(client);
 //login with google
 export async function login() {
     try {
-        const redirectUri = await Linking.createURL("/");
-        
-        const response = await account.createOAuth2Token(
-            OAuthProvider.Google,
-            redirectUri
-        );
-        if (!response) throw new Error("Create OAuth2 Token failed");
-
-        const browserResult = await openAuthSessionAsync(
-            response.toString(),
-            redirectUri
-        );
-        if (browserResult.type !== "success") throw new Error("Create OAuth2 token failed");
-
-        const url = new URL(browserResult.url);
-        const secret = url.searchParams.get("secret")?.toString();
-        const userId = url.searchParams.get("userId")?.toString();
-        if (!secret || !userId) throw new Error("Create OAuth2 token failed");
-
-        const session = await account.createSession(secret, userId);
-        if (!session) throw new Error("Failed to create session");
-
-        return true;
+      const redirectUri = Linking.createURL("/");
+  
+      const response = await account.createOAuth2Token(
+        OAuthProvider.Google,
+        redirectUri
+      );
+      if (!response) throw new Error("Create OAuth2 token failed");
+  
+      const browserResult = await openAuthSessionAsync(
+        response.toString(),
+        redirectUri
+      );
+      if (browserResult.type !== "success")
+        throw new Error("Create OAuth2 token failed");
+  
+      const url = new URL(browserResult.url);
+      const secret = url.searchParams.get("secret")?.toString();
+      const userId = url.searchParams.get("userId")?.toString();
+      if (!secret || !userId) throw new Error("Create OAuth2 token failed");
+  
+      const session = await account.createSession(userId, secret);
+      if (!session) throw new Error("Failed to create session");
+  
+      return true;
     } catch (error) {
-        console.error(error);
-        return false;
+      console.error(error);
+      return false;
     }
-};
+  }
 
 //logout
 export async function logout() {

@@ -11,13 +11,19 @@ import { login } from "@/lib/appwrite";
 
 import images from "@/constants/images";
 import icons from "@/constants/icons";
-import { router } from "expo-router";
+import { useGlobalContext } from "@/lib/global-provider";
+import { Redirect } from "expo-router";
+
 
 const Auth = () => {
+  const { refetch, loading, isLogged } = useGlobalContext();
+
+  if(!loading && isLogged) return <Redirect href="/" />
+
   const handleLogin = async () => {
-    const success = await login();
-    if (success) {
-      router.push("/");
+    const result = await login();
+    if (result) {
+      refetch();
     } else {
       Alert.alert("Login failed");
     }
