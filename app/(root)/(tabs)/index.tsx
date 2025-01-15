@@ -1,15 +1,16 @@
 import Search from '@/components/Search';
 import icons from '@/constants/icons';
 import { useGlobalContext } from '@/lib/global-provider';
-import { SafeAreaView, View, Image, Text, TouchableOpacity, ActivityIndicator, FlatList, Button } from 'react-native';
+import { SafeAreaView, View, Image, Text, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
 import { FeaturedCard, Card } from '@/components/Cards';
 import Filters from '@/components/Filters';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import NoResults from '@/components/NoResults';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useAppwrite } from '@/lib/useAppwrite';
 
 import { getLatestProperties, getProperties } from '@/lib/appwrite';
+
 
 export default function HomeScreen() {
   const { user } = useGlobalContext();

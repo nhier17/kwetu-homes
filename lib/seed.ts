@@ -1,4 +1,4 @@
-import { ID } from "react-native-appwrite";
+import { ID, Models } from "react-native-appwrite";
 import { databases, config } from "./appwrite";
 import {
   agentImages,
@@ -6,6 +6,7 @@ import {
   propertiesImages,
   reviewImages,
 } from "./data";
+import { faker } from "@faker-js/faker";
 
 const COLLECTIONS = {
   AGENT: config.agentsCollectionId,
@@ -39,38 +40,14 @@ function getRandomSubset<T>(
   minItems: number,
   maxItems: number
 ): T[] {
-  if (minItems > maxItems) {
-    throw new Error("minItems cannot be greater than maxItems");
-  }
-  if (minItems < 0 || maxItems > array.length) {
-    throw new Error(
-      "minItems or maxItems are out of valid range for the array"
-    );
-  }
-
-  // Generate a random size for the subset within the range [minItems, maxItems]
   const subsetSize =
     Math.floor(Math.random() * (maxItems - minItems + 1)) + minItems;
-
-  // Create a copy of the array to avoid modifying the original
-  const arrayCopy = [...array];
-
-  // Shuffle the array copy using Fisher-Yates algorithm
-  for (let i = arrayCopy.length - 1; i > 0; i--) {
-    const randomIndex = Math.floor(Math.random() * (i + 1));
-    [arrayCopy[i], arrayCopy[randomIndex]] = [
-      arrayCopy[randomIndex],
-      arrayCopy[i],
-    ];
-  }
-
-  // Return the first `subsetSize` elements of the shuffled array
-  return arrayCopy.slice(0, subsetSize);
+  return [...array].sort(() => 0.5 - Math.random()).slice(0, subsetSize);
 }
 
 async function seed() {
   try {
-    // Clear existing data from all collections
+    // Clear existing data
     for (const key in COLLECTIONS) {
       const collectionId = COLLECTIONS[key as keyof typeof COLLECTIONS];
       const documents = await databases.listDocuments(
@@ -90,14 +67,14 @@ async function seed() {
 
     // Seed Agents
     const agents = [];
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 0; i < 5; i++) {
       const agent = await databases.createDocument(
         config.databaseId!,
         COLLECTIONS.AGENT!,
         ID.unique(),
         {
-          name: `Agent ${i}`,
-          email: `agent${i}@example.com`,
+          name: faker.person.fullName(),
+          email: faker.internet.email(),
           avatar: agentImages[Math.floor(Math.random() * agentImages.length)],
         }
       );
@@ -107,16 +84,16 @@ async function seed() {
 
     // Seed Reviews
     const reviews = [];
-    for (let i = 1; i <= 20; i++) {
+    for (let i = 0; i < 20; i++) {
       const review = await databases.createDocument(
         config.databaseId!,
         COLLECTIONS.REVIEWS!,
         ID.unique(),
         {
-          name: `Reviewer ${i}`,
+          name: faker.person.fullName(),
           avatar: reviewImages[Math.floor(Math.random() * reviewImages.length)],
-          review: `This is a review by Reviewer ${i}.`,
-          rating: Math.floor(Math.random() * 5) + 1, // Rating between 1 and 5
+          review: faker.lorem.paragraph(),
+          rating: faker.number.int({ min: 1, max: 5 }),
         }
       );
       reviews.push(review);
@@ -124,8 +101,8 @@ async function seed() {
     console.log(`Seeded ${reviews.length} reviews.`);
 
     // Seed Galleries
-    const galleries = [];
-    for (const image of galleryImages) {
+    const galleries: Models.Document[] = [];
+    galleryImages.forEach(async (image) => {
       const gallery = await databases.createDocument(
         config.databaseId!,
         COLLECTIONS.GALLERY!,
@@ -133,51 +110,39 @@ async function seed() {
         { image }
       );
       galleries.push(gallery);
-    }
-
+    });
     console.log(`Seeded ${galleries.length} galleries.`);
 
     // Seed Properties
-    for (let i = 1; i <= 20; i++) {
-      const assignedAgent = agents[Math.floor(Math.random() * agents.length)];
-
-      const assignedReviews = getRandomSubset(reviews, 5, 7); // 5 to 7 reviews
-      const assignedGalleries = getRandomSubset(galleries, 3, 8); // 3 to 8 galleries
-
-      const selectedFacilities = facilities
-        .sort(() => 0.5 - Math.random())
-        .slice(0, Math.floor(Math.random() * facilities.length) + 1);
-
-      const image =
-        propertiesImages.length - 1 >= i
-          ? propertiesImages[i]
-          : propertiesImages[
-              Math.floor(Math.random() * propertiesImages.length)
-            ];
+    for (let i = 0; i < 20; i++) {
+      const assignedAgent = faker.helpers.arrayElement(agents);
+      const assignedReviews = getRandomSubset(reviews, 3, 5);
+      const assignedGalleries = getRandomSubset(galleries, 3, 6);
 
       const property = await databases.createDocument(
         config.databaseId!,
         COLLECTIONS.PROPERTY!,
         ID.unique(),
         {
-          name: `Property ${i}`,
-          type: propertyTypes[Math.floor(Math.random() * propertyTypes.length)],
-          description: `This is the description for Property ${i}.`,
-          address: `123 Property Street, City ${i}`,
-          geolocation: `192.168.1.${i}, 192.168.1.${i}`,
+          name: `${faker.location.street()} ${faker.helpers.arrayElement(
+            propertyTypes
+          )}`,
+          type: faker.helpers.arrayElement(propertyTypes),
+          description: faker.lorem.paragraph(),
+          address: `${faker.location.streetAddress()}, ${faker.location.city()}`,
+          geolocation: `${faker.location.latitude()}, ${faker.location.longitude()}`,
           price: Math.floor(Math.random() * 9000) + 1000,
-          area: Math.floor(Math.random() * 3000) + 500,
-          bedrooms: Math.floor(Math.random() * 5) + 1,
-          bathrooms: Math.floor(Math.random() * 5) + 1,
-          rating: Math.floor(Math.random() * 5) + 1,
-          facilities: selectedFacilities,
-          image: image,
+          area: faker.number.int({ min: 500, max: 3000 }),
+          bedrooms: faker.number.int({ min: 1, max: 5 }),
+          bathrooms: faker.number.int({ min: 1, max: 4 }),
+          rating: faker.number.int({ min: 1, max: 5 }),
+          facilities: getRandomSubset(facilities, 3, 6),
+          image: faker.helpers.arrayElement(propertiesImages),
           agent: assignedAgent.$id,
           reviews: assignedReviews.map((review) => review.$id),
           gallery: assignedGalleries.map((gallery) => gallery.$id),
         }
       );
-
       console.log(`Seeded property: ${property.name}`);
     }
 
