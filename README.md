@@ -1,21 +1,100 @@
-# Welcome to your Expo app 👋
+<div align="center"> <br /> <img src="/assets/images/banner.png" alt="Project Banner" />  <br /> <div> 
+<img src="https://img.shields.io/badge/-Expo-black?style=for-the-badge&logoColor=white&logo=expo&color=000000" alt="Expo" /> 
+<img src="https://img.shields.io/badge/-TypeScript-black?style=for-the-badge&logoColor=white&logo=typescript&color=3178C6" alt="TypeScript" /> 
+<img src="https://img.shields.io/badge/-Tailwind_CSS-black?style=for-the-badge&logoColor=white&logo=tailwindcss&color=06B6D4" alt="TailwindCSS" /> 
+<img src="https://img.shields.io/badge/-Appwrite-black?style=for-the-badge&logoColor=white&logo=appwrite&color=FD366E" alt="Appwrite" />
+ </div>
+  <h3 align="center">A dynamic and scalable Real Estate application for modern property management</h3> 
+  </div>
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## 📋 <a name="table">Table of Contents</a>
 
-## Get started
+1. 🤖 [Introduction](#introduction)
+2. ⚙️ [Tech Stack](#tech-stack)
+3. 🔋 [Features](#features)
+4. 🤸 [Quick Start](#quick-start)
+5. 📞 [Contact](#contact)
 
-1. Install dependencies
 
-   ```bash
-   npm install
-   ```
 
-2. Start the app
+## <a name="introduction">🤖 Introduction</a>
 
-   ```bash
-    npx expo start
-   ```
+KwetuHomes is built with React Native, leveraging the Expo SDK 52 for seamless app development. It integrates Google authentication, dynamic property listings, and user profiles, providing an intuitive and responsive platform for property seekers and real estate professionals. Powered by modern tools like Appwrite, Tailwind CSS, and TypeScript, the application ensures a reliable, secure, and scalable experience.
 
+
+## <a name="tech-stack">⚙️ Tech Stack</a>
+
+- React Native
+- Expo SDK 52
+- Appwrite
+- TailwindCSS
+- TypeScript
+
+## <a name="features">🔋 Features</a>
+
+🔐 **Google Authentication**: Secure and seamless user login using Google accounts.
+
+🏠 **Dynamic Propety Listings**: Fetch and display real-time property data with user-friendly filtering and search options.
+
+🗂️ **User Profiles**: Manage user information, preferences, and saved properties for a personalized experience.
+
+🔍 **Filters and Search**:  Advanced filtering by property type, location, and budget, coupled with global search functionality.
+
+📱 **Responsive design**:Optimized for smooth performance across various devices with a modern and clean UI.
+
+
+## <a name="quick-start">🤸 Quick Start</a>
+
+Follow these steps to set up the project locally on your machine.
+
+**Prerequisites**
+
+Make sure you have the following installed on your machine:
+
+- [Git](https://git-scm.com/)
+- [Node.js](https://nodejs.org/en)
+- [npm](https://www.npmjs.com/) (Node Package Manager)
+
+**Cloning the Repository**
+
+```bash
+git clone https://github.com/nhier17/kwetu-homes.git
+cd kwetu-homes
+```
+
+**Installation**
+
+Install the project dependencies using npm:
+
+```bash
+npm install
+```
+
+**Set Up Environment Variables**
+
+Create a new file named `.env.local` in the root of your project and add the following content:
+
+```env
+XPO_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
+EXPO_PUBLIC_APPWRITE_PROJECT_ID
+XPO_PUBLIC_APPWRITE_DATABASE_ID
+EXPO_PUBLIC_APPWRITE_GALLERIES_COLLECTION_ID
+EXPO_PUBLIC_APPWRITE_REVIEWS_COLLECTION_ID
+EXPO_PUBLIC_APPWRITE_AGENTS_COLLECTION_ID
+EXPO_PUBLIC_APPWRITE_PROPERTIES_COLLECTION_ID
+EXPO_PUBLIC_APPWRITE_USERS_COLLECTION_ID
+EXPO_PUBLIC_APPWRITE_USER_ID
+EXPO_PUBLIC_APPWRITE_BUCKET_ID
+```
+
+Replace the values with your actual Appwrite credentials. You can obtain these credentials by signing up &
+creating a new project on the [Appwrite website](https://appwrite.io/).
+
+**Running the Project**
+
+```bash
+npx expo start
+```
 In the output, you'll find options to open the app in a
 
 - [development build](https://docs.expo.dev/develop/development-builds/introduction/)
@@ -25,26 +104,19 @@ In the output, you'll find options to open the app in a
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Get a fresh project
 
-When you're ready, run:
 
-```bash
-npm run reset-project
-```
+## <a name="contact">📞 Contact</a>
+## Author: Abraham Nhier
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Contact Information;
+   Email: abrahamnhier97@gmail.com
+   
+   Phone: +254716903151
+   
+   Portfolio: https://abrahamnhier.vercel.app
+       
+ ## LICENSE: [MIT License](link-to-license-file).
 
-## Learn more
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+#
